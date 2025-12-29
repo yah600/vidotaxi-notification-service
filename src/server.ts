@@ -9,6 +9,7 @@ import rateLimit from 'express-rate-limit';
 import { config } from './lib/config.js';
 import notificationsRouter from './routes/notifications.js';
 import pushRouter from './routes/push.js';
+import smsRouter from './routes/sms.js';
 import healthRouter from './routes/health.js';
 
 const app = express();
@@ -59,7 +60,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // Mount routes
 app.use('/health', healthRouter);
 app.use('/api/notifications', apiLimiter, notificationsRouter);
+app.use('/api/notifications/sms', smsRouter);
 app.use('/api/push', apiLimiter, pushRouter);
+
+// Internal service routes (without /api prefix for service-to-service calls)
+app.use('/notifications/sms', smsRouter);
 
 // Root endpoint
 app.get('/', (req: Request, res: Response) => {
@@ -107,6 +112,8 @@ async function start(): Promise<void> {
       console.log('  Endpoints:');
       console.log('  - POST /api/notifications/send');
       console.log('  - POST /api/notifications/send-bulk');
+      console.log('  - POST /api/notifications/sms');
+      console.log('  - POST /notifications/sms (internal)');
       console.log('  - GET  /api/notifications/user/:userId');
       console.log('  - POST /api/push/send');
       console.log('  - POST /api/push/register');
