@@ -4,15 +4,15 @@
   "requiresCompatibilities": ["FARGATE"],
   "cpu": "256",
   "memory": "512",
-  "executionRoleArn": "arn:aws:iam::127214158930:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::127214158930:role/ecsTaskRole",
+  "executionRoleArn": "arn:aws:iam::867803150424:role/vidotaxi-ecs-task-execution-role",
   "containerDefinitions": [
     {
       "name": "notification-service",
-      "image": "127214158930.dkr.ecr.us-east-1.amazonaws.com/vidotaxi-notification-service:latest",
+      "image": "867803150424.dkr.ecr.us-east-1.amazonaws.com/vidotaxi-notification-service:v1.0.1",
       "portMappings": [
         {
           "containerPort": 4003,
+          "hostPort": 4003,
           "protocol": "tcp"
         }
       ],
@@ -26,48 +26,42 @@
       },
       "environment": [
         {"name": "NODE_ENV", "value": "production"},
-        {"name": "PORT", "value": "4003"}
+        {"name": "PORT", "value": "4003"},
+        {"name": "CORS_ORIGINS", "value": "https://app.vidotaxi.com,https://vidotaxi.com"},
+        {"name": "APP_URL", "value": "https://app.vidotaxi.com"}
       ],
       "secrets": [
         {
-          "name": "SQS_QUEUE_URL",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/aws-services:SQS_NOTIFICATION_QUEUE_URL::"
-        },
-        {
-          "name": "SQS_REGION",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/aws-services:AWS_REGION::"
-        },
-        {
           "name": "TWILIO_ACCOUNT_SID",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/twilio:TWILIO_ACCOUNT_SID::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/twilio-UAMzic:TWILIO_ACCOUNT_SID::"
         },
         {
           "name": "TWILIO_AUTH_TOKEN",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/twilio:TWILIO_AUTH_TOKEN::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/twilio-UAMzic:TWILIO_AUTH_TOKEN::"
         },
         {
           "name": "TWILIO_PHONE_NUMBER",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/twilio:TWILIO_PHONE_NUMBER::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/twilio-UAMzic:TWILIO_PHONE_NUMBER::"
         },
         {
           "name": "RESEND_API_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/email:RESEND_API_KEY::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/email-EGI3BM:RESEND_API_KEY::"
         },
         {
           "name": "EMAIL_FROM",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/email:EMAIL_FROM::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/email-EGI3BM:EMAIL_FROM::"
         },
         {
           "name": "FIREBASE_PROJECT_ID",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/firebase:FIREBASE_PROJECT_ID::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/firebase-O4OYS9:FIREBASE_PROJECT_ID::"
         },
         {
           "name": "FIREBASE_CLIENT_EMAIL",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/firebase:FIREBASE_CLIENT_EMAIL::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/firebase-O4OYS9:FIREBASE_CLIENT_EMAIL::"
         },
         {
           "name": "FIREBASE_PRIVATE_KEY",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:127214158930:secret:vidotaxi/production/firebase:FIREBASE_PRIVATE_KEY::"
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/firebase-O4OYS9:FIREBASE_PRIVATE_KEY::"
         }
       ],
       "logConfiguration": {
@@ -75,7 +69,7 @@
         "options": {
           "awslogs-group": "/ecs/vidotaxi-notification-service",
           "awslogs-region": "us-east-1",
-          "awslogs-stream-prefix": "ecs",
+          "awslogs-stream-prefix": "notification",
           "awslogs-create-group": "true"
         }
       }
