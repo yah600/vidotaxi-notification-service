@@ -53,12 +53,18 @@ FIREBASE_CLIENT_EMAIL=...
 FIREBASE_PRIVATE_KEY=...
 ```
 
-## Deployment
-- ECR: `127214158930.dkr.ecr.us-east-1.amazonaws.com/vidotaxi-notification-service`
-- ECS Service: `vidotaxi-notification-service`
+## Deployment - LIVE
+- ECR: `867803150424.dkr.ecr.us-east-1.amazonaws.com/vidotaxi-notification-service:v1.0.1`
+- ECS Service: `vidotaxi-notification-service` (RUNNING)
 - Port: 4003
 - Health check: `/health/live`
-- Internal only (no ALB routing needed, uses service discovery)
+- Internal only (service-to-service communication)
+
+## Secrets Manager
+- `vidotaxi/production/jwt` - JWT_SECRET
+- `vidotaxi/production/twilio` - TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER
+- `vidotaxi/production/email` - RESEND_API_KEY, EMAIL_FROM
+- `vidotaxi/production/firebase` - FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY (needs config)
 
 ## Related Services
 - **Auth Service**: Calls SMS endpoint for 2FA
