@@ -32,6 +32,10 @@
       ],
       "secrets": [
         {
+          "name": "JWT_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/jwt-Ejv0eU:JWT_SECRET::"
+        },
+        {
           "name": "TWILIO_ACCOUNT_SID",
           "valueFrom": "arn:aws:secretsmanager:us-east-1:867803150424:secret:vidotaxi/production/twilio-UAMzic:TWILIO_ACCOUNT_SID::"
         },
